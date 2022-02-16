@@ -14,12 +14,15 @@ class CpuGraph(QObject):
         self.graph_widget = pg.PlotWidget(parent)
         self.closing = False
         self.curve = self.graph_widget.plot(self.cpu_use, clear=True)
+        self.curve.setPen(pg.mkPen(color='y', width=3))
+        self.graph_widget.setXRange(0, 100)
+        self.graph_widget.setYRange(0, 100)
+
 
     @Slot(float)
     def add_data(self, value):
         self.cpu_use.append(value)
         self.curve.setData(self.cpu_use)
-        self.graph_widget.update()
 
     def graph(self, parent):
         self.new_data.connect(self.add_data)
