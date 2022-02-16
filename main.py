@@ -17,8 +17,8 @@ class DockDemo(QMainWindow):
         file.addAction('Exit')
 
         self.graph_view = QDockWidget('CPU %', self)
-        self.gr = CpuPlot.CpuGraph()
-        self.graph_view.setWidget(self.gr.graph(self.graph_view))
+        self.graph_widget = CpuPlot.CpuGraph(self.graph_view)
+        self.graph_view.setWidget(self.graph_widget)
         self.graph_view.setFloating(False)
 
         self.web_dock = QDockWidget('Search Page', self)
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     demo = DockDemo()
     demo.show()
-    demo.gr.run()
+    demo.graph_widget.run()
     result = app.exec()
-    demo.gr.close()
+    demo.graph_widget.close()
     sys.exit(result)
