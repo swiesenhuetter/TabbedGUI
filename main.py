@@ -40,6 +40,23 @@ class DockDemo(QMainWindow):
         self.setWindowIcon(QIcon('Eulitha_icon.ico'))
         self.setWindowTitle('Eulitha Phabler')
 
+        toolbar = QToolBar("Phabler Main Toolbar")
+        self.addToolBar(toolbar)
+        wec_action = QAction("WEC", self)
+        wec_action.setStatusTip("Perform Wedge Error Correction")
+        wec_action.triggered.connect(self.click_wec)
+        toolbar.addAction(wec_action)
+
+        exp_action = QAction("Exposure", self)
+        exp_action.setStatusTip("DTL Exposure")
+        exp_action.triggered.connect(self.click_exp)
+        toolbar.addAction(exp_action)
+
+    def click_wec(self):
+        print("WEC")
+
+    def click_exp(self):
+        print("Exposure")
 
 
 if __name__ == '__main__':
