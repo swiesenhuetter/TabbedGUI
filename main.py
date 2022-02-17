@@ -1,8 +1,8 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QDockWidget, QHBoxLayout, QTextEdit
+from PySide6.QtWidgets import QApplication, QMainWindow, QDockWidget, QHBoxLayout, QTextEdit, QToolBar
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtCore import Qt, QUrl
-from PySide6.QtGui import QIcon
+from PySide6.QtGui import QIcon, QAction
 import CpuPlot
 
 
@@ -11,15 +11,15 @@ class DockDemo(QMainWindow):
         super(DockDemo, self).__init__(parent)
         layout = QHBoxLayout()
         bar = self.menuBar()
-        file = bar.addMenu('File')
-        file.addAction('New')
-        file.addAction('Save')
-        file.addAction('Exit')
+        file_menu = bar.addMenu('File')
+        file_menu.addAction('New')
+        file_menu.addAction('Save')
+        file_menu.addAction('Exit')
 
-        self.graph_view = QDockWidget('CPU %', self)
-        self.graph_widget = CpuPlot.CpuGraph(self.graph_view)
-        self.graph_view.setWidget(self.graph_widget)
-        self.graph_view.setFloating(False)
+        self.graph_dock = QDockWidget('Plot CPU %', self)
+        self.graph_widget = CpuPlot.CpuGraph(self.graph_dock)
+        self.graph_dock.setWidget(self.graph_widget)
+        self.graph_dock.setFloating(False)
 
         self.web_dock = QDockWidget('Search Page', self)
         self.webView = QWebEngineView()
@@ -29,8 +29,12 @@ class DockDemo(QMainWindow):
 
         self.setCentralWidget(QTextEdit())
 
+        win_menu = bar.addMenu('Windows')
+        win_menu.addAction(self.graph_dock.toggleViewAction())
+        win_menu.addAction(self.web_dock.toggleViewAction())
+
         self.addDockWidget(Qt.RightDockWidgetArea, self.web_dock)
-        self.addDockWidget(Qt.BottomDockWidgetArea, self.graph_view)
+        self.addDockWidget(Qt.BottomDockWidgetArea, self.graph_dock)
 
         self.setLayout(layout)
         self.setWindowIcon(QIcon('Eulitha_icon.ico'))
