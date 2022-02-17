@@ -52,6 +52,9 @@ class DockDemo(QMainWindow):
         exp_action.triggered.connect(self.click_exp)
         toolbar.addAction(exp_action)
 
+        self.statusBar().setStatusTip("Eulitha Phabler")
+
+
     def click_wec(self):
         print("WEC")
 
