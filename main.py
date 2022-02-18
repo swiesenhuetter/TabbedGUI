@@ -32,6 +32,7 @@ class DockDemo(QMainWindow):
         win_menu = bar.addMenu('Windows')
         win_menu.addAction(self.graph_dock.toggleViewAction())
         win_menu.addAction(self.web_dock.toggleViewAction())
+        win_menu.addAction(self.tree_dock.toggleViewAction())
 
     def create_docks(self, parent):
         self.graph_dock = QDockWidget('Plot CPU %', parent)
