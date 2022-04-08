@@ -1,6 +1,7 @@
 import sys
+
 from PySide6.QtWidgets import QApplication, QTextEdit, QMainWindow, \
-    QDockWidget, QHBoxLayout, QTreeView, QToolBar, QFileSystemModel
+    QDockWidget, QHBoxLayout, QTreeView, QToolBar, QFileSystemModel, QFileDialog
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtCore import Qt, QUrl, QDir
 from PySide6.QtGui import QIcon, QAction
@@ -23,9 +24,14 @@ class DockDemo(QMainWindow):
         self.statusBar().setStatusTip("Eulitha Phabler")
 
     def create_menus(self):
+        open_action = QAction("&Open", self)
+        open_action.setStatusTip("Open a polygon file")
+        open_action.triggered.connect(self.click_open)
+
         bar = self.menuBar()
         file_menu = bar.addMenu('File')
         file_menu.addAction('New')
+        file_menu.addAction(open_action)
         file_menu.addAction('Save')
         file_menu.addAction('Exit')
 
@@ -76,6 +82,9 @@ class DockDemo(QMainWindow):
     def click_exp(self):
         print("Exposure")
 
+    def click_open(self):
+        fileName = QFileDialog.getOpenFileName(self, "Open File", "c:/", "Images (*.png *.xpm *.jpg)")
+        print("Open Document %s" % fileName[0])
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
