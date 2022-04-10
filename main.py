@@ -58,6 +58,7 @@ class DockDemo(QMainWindow):
         model.setRootPath(QDir.currentPath())
         self.tree_view.setModel(model)
         self.tree_view.setRootIndex(model.index(QDir.currentPath()))
+        self.tree_view.doubleClicked.connect(self.double_click_tree)
 
         self.addDockWidget(Qt.LeftDockWidgetArea, self.tree_dock)
         self.addDockWidget(Qt.RightDockWidgetArea, self.web_dock)
@@ -85,6 +86,11 @@ class DockDemo(QMainWindow):
     def click_open(self):
         fileName = QFileDialog.getOpenFileName(self, "Open File", "c:/", "Images (*.png *.xpm *.jpg)")
         print("Open Document %s" % fileName[0])
+
+    def double_click_tree(self, index):
+        model = self.tree_view.model()
+        abs_file_name = model.fileInfo(index).absoluteFilePath()
+        print("Double Clicked %s" % abs_file_name)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
