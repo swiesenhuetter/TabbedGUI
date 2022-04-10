@@ -9,21 +9,24 @@ from PySide6.QtGui import QIcon, QAction
 import CpuPlot
 
 
-def config_logging():
+def configure_logging():
     log_format = "%(asctime)s %(levelname)s:%(message)s"
-    date_fmt = "%b %d %H:%M:%S"
     log_lvl = logging.INFO
     logging.basicConfig(filename='logfile.txt',
                         level=log_lvl,
-                        format=log_format,
-                        datefmt=date_fmt)
+                        format=log_format)
+
+    console_logger = logging.StreamHandler()
+    console_logger.setLevel(logging.DEBUG)
+    console_logger.setFormatter(logging.Formatter(log_format))
+    logging.getLogger().addHandler(console_logger)
     logging.info('Started')
 
 
 class DockDemo(QMainWindow):
     def __init__(self, parent=None):
         super(DockDemo, self).__init__(parent)
-        config_logging()
+        configure_logging()
         self.setWindowIcon(QIcon('Eulitha_icon.ico'))
         self.setWindowTitle('Eulitha Phabler')
         central_widget = QTextEdit()
