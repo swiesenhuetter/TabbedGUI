@@ -1,6 +1,7 @@
 import threading
 import pyqtgraph as pg
 import psutil
+import logging
 from collections import deque
 from PySide6.QtCore import Signal, Slot
 
@@ -10,6 +11,7 @@ class CpuGraph(pg.PlotWidget):
 
     def __init__(self, parent=None):
         super(CpuGraph, self).__init__(parent=parent)
+        logging.debug("CpuGraph.__init__")
         self.cpu_use = deque(maxlen=100)
         self.closing = False
         self.curve = self.plot(self.cpu_use, clear=True)
@@ -31,7 +33,7 @@ class CpuGraph(pg.PlotWidget):
             threading.Timer(0.1, self.run).start()
 
     def close(self):
-        print("Closing")
+        logging.debug("CpuGraph.close()")
         self.closing = True
 
 

@@ -1,4 +1,5 @@
 import sys
+import logging
 
 from PySide6.QtWidgets import QApplication, QTextEdit, QMainWindow, \
     QDockWidget, QHBoxLayout, QTreeView, QToolBar, QFileSystemModel, QFileDialog
@@ -8,9 +9,21 @@ from PySide6.QtGui import QIcon, QAction
 import CpuPlot
 
 
+def config_logging():
+    log_format = "%(asctime)s %(levelname)s:%(message)s"
+    date_fmt = "%b %d %H:%M:%S"
+    log_lvl = logging.INFO
+    logging.basicConfig(filename='logfile.txt',
+                        level=log_lvl,
+                        format=log_format,
+                        datefmt=date_fmt)
+    logging.info('Started')
+
+
 class DockDemo(QMainWindow):
     def __init__(self, parent=None):
         super(DockDemo, self).__init__(parent)
+        config_logging()
         self.setWindowIcon(QIcon('Eulitha_icon.ico'))
         self.setWindowTitle('Eulitha Phabler')
         central_widget = QTextEdit()
@@ -78,25 +91,30 @@ class DockDemo(QMainWindow):
         toolbar.addAction(exp_action)
 
     def click_wec(self):
-        print("WEC")
+        logging.debug("WEC")
 
     def click_exp(self):
-        print("Exposure")
+        logging.debug("Exposure")
 
     def click_open(self):
         fileName = QFileDialog.getOpenFileName(self, "Open File", "c:/", "Images (*.png *.xpm *.jpg)")
-        print("Open Document %s" % fileName[0])
+        logging.debug("Open Document %s" % fileName[0])
 
     def double_click_tree(self, index):
         model = self.tree_view.model()
         abs_file_name = model.fileInfo(index).absoluteFilePath()
-        print("Double Clicked %s" % abs_file_name)
+        text_edit = self.centralWidget()
+        file = open(abs_file_name, 'r')
+        text_edit.setText(file.read())
+        logging.debug("Double Clicked %s" % abs_file_name)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     demo = DockDemo()
+    logging.info('DockDemo() called')
     demo.show()
     demo.graph_widget.run()
     result = app.exec()
     demo.graph_widget.close()
+    logging.info('shutdown')
     sys.exit(result)
