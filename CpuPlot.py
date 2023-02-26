@@ -1,4 +1,6 @@
 import threading
+import time
+
 import pyqtgraph as pg
 import psutil
 import logging
@@ -12,7 +14,7 @@ class CpuGraph(pg.PlotWidget):
     def __init__(self, parent=None):
         super(CpuGraph, self).__init__(parent=parent)
         logging.debug("CpuGraph.__init__")
-        self.cpu_use = deque(maxlen=100)
+        self.cpu_use = deque([0], maxlen=100)
         self.closing = False
         self.curve = self.plot(self.cpu_use, clear=True)
         self.setLabel('left', "CPU usage", units='%')
@@ -35,6 +37,10 @@ class CpuGraph(pg.PlotWidget):
     def close(self):
         logging.debug("CpuGraph.close()")
         self.closing = True
+
+    def paintEvent(self, ev):
+        if self.cpu_use:
+            super(CpuGraph, self).paintEvent(ev)
 
 
 if __name__ == '__main__':
