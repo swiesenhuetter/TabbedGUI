@@ -107,7 +107,7 @@ class DockDemo(QMainWindow):
         model = self.tree_view.model()
         abs_file_name = model.fileInfo(index).absoluteFilePath()
         text_edit = self.centralWidget()
-        file = open(abs_file_name, 'r')
+        file = open(abs_file_name, 'r', encoding='utf-8', errors='ignore')
         text_edit.setText(file.read())
         logging.debug("Double Clicked %s" % abs_file_name)
 
