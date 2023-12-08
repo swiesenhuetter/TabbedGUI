@@ -1,4 +1,5 @@
-Pyside6 == 6.4.2
-psutil == 5.9.4
-pyqtgraph == 0.13.1
+Pyside6 == 6.5.0
+psutil == 5.9.5
+pyqtgraph == 0.13.3
+
 
